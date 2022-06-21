@@ -5,7 +5,7 @@ from cores.timestamp import TimeStamp
 class User(models.Model):
     nickname      = models.CharField(max_length=50)
     email         = models.EmailField()
-    profile_image = models.CharField(max_length=255)
+    profile_image = models.CharField(max_length=255, null=True)
 
     class Meta:
         db_table = 'users'
