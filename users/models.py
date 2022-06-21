@@ -17,7 +17,7 @@ class UserRank(TimeStamp):
     correct_answer = models.IntegerField()
     total_time     = models.IntegerField()
     quiz_passed    = models.IntegerField()
+    attempt        = models.IntegerField()
 
     class Meta:
         db_table = 'user_rank'
-
