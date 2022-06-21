@@ -11,7 +11,7 @@ class DevelopmentGroup(models.Model):
         db_table = 'development_groups'
     
 
-class Category(models.Model):
+class Category(TimeStamp):
     development_group = models.ForeignKey('DevelopmentGroup', on_delete=models.PROTECT)
     name              = models.CharField(max_length=50)
     image             = models.CharField(max_length=255, null=True)
