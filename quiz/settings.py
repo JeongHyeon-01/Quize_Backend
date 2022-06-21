@@ -45,15 +45,15 @@ INSTALLED_APPS = [
     'users',
     'questions',
     'cores',
-
     #allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
     #provider 구글 페이스북 카톡 깃허브 등 소셜로그인 제공업체
     'allauth.socialaccount.providers.google',
+    #swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
