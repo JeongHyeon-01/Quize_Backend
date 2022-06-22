@@ -1,6 +1,7 @@
 from django.urls import path,include
-
+from .views import hello
 
 urlpatterns = [
-    path('accounts/', include('allauth.urls')),
+    path('', include('allauth.urls')),
+    path('profile/', hello)
 ] 
