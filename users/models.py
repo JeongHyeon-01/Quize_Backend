@@ -2,6 +2,9 @@ from django.db import models
 
 from cores.timestamp import TimeStamp
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+
 
 class UserRank(TimeStamp):
     # correct answer는 총 정답 개수를 의미
