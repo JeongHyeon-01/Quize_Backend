@@ -1,8 +1,16 @@
-from django.shortcuts import redirect, render
-from django.views import View
-from django.http import HttpResponse
+from users.models import User
+from users.serializers import UserProfileSerializer
 
+from cores.permissions import CustomReadOnly
+from rest_framework import generics
 
-# redirect test용 추후 지워질 내용
-def hello(request):
-    return HttpResponse(200)
+class UserProfile(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes=[CustomReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user.id
+        queryset = User.objects.filter(id=user)
+        return queryset
+

@@ -1,7 +1,12 @@
 from django.urls import path,include
-from .views import hello
+
+from users.views import UserProfile
 
 urlpatterns = [
     path('', include('allauth.urls')),
-    path('profile/', hello)
+    path('profile/', UserProfile.as_view())
 ] 
+
+
+
+
