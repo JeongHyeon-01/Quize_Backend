@@ -3,6 +3,6 @@ from django.urls import path
 from questions.views import CategoryListView, CategoryDetailView
 
 urlpatterns = [
-    path('', CategoryListView.as_view(), name='category-list'),
-    path('<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
+    path('<int:pk>/category/', CategoryListView.as_view(), name='category-list'),
+    path('category/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
 ]
