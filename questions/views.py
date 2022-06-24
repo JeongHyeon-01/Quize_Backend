@@ -1,7 +1,7 @@
 from rest_framework import generics
 
-from questions.models      import Category, DevelopmentGroup
-from questions.serializers import CategoryListSerializer, CategoryDetailSerializer
+from questions.models      import Category, DevelopmentGroup, Question, Answer
+from questions.serializers import CategoryListSerializer, CategoryDetailSerializer, QuizSerializer
 
 
 class CategoryListView(generics.ListAPIView):
@@ -18,3 +18,8 @@ class CategoryListView(generics.ListAPIView):
 class CategoryDetailView(generics.RetrieveAPIView):
     queryset         = Category.objects.all()
     serializer_class = CategoryDetailSerializer
+
+
+class QuizMainView(generics.RetrieveAPIView):
+    queryset         = Category.objects.all()
+    serializer_class = QuizSerializer
