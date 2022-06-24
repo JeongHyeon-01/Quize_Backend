@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from my_settings import SECRET_KEY, DATABASES, SOCIALACCOUNT_PROVIDERS
+from my_settings import SECRET_KEY, DATABASES, SOCIALACCOUNT_PROVIDERS,STATE
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+STATE = STATE
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id']
+SOCIAL_AUTH_GOOGLE_SECRET = SOCIALACCOUNT_PROVIDERS['google']['APP']['secret']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     #rest Framework
     'rest_framework',
+    'rest_framework.authtoken',
     #application
     'users',
     'questions',
@@ -54,6 +58,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     #swagger
     'drf_yasg',
+    # dj-rest-auth
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +168,20 @@ CORS_ALLOW_HEADERS = (
 
 APPEND_SLASH = False
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
+
+}
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None 
+ACCOUNT_EMAIL_REQUIRED = True            
+ACCOUNT_USERNAME_REQUIRED = False        
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 AUTHENTICATION_BACKENDS = (
     #Needed to login by username in Django admin, regardless of 'allauth'
     'django.contrib.auth.backends.ModelBackend',
@@ -170,11 +191,18 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-LOGIN_REDIRECT_URL = "/users/profile/"
 
-ACCOUNT_AUTHENTICATED_LOGOUT_REDIRECTS = True
-ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 SOCIALACCOUNT_PROVIDERS = SOCIALACCOUNT_PROVIDERS
 
 AUTH_USER_MODEL = "users.User"
+
+
+#JWT관련
+REST_USE_JWT = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}

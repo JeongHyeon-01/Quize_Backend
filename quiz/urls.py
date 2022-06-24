@@ -24,11 +24,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/',include('users.urls')),
+    path('accounts/',include('users.urls')),
+    # path('accounts/', include('allauth.urls')),
     path('questions/', include('questions.urls')),
-
-
-
 
     #swagger
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
