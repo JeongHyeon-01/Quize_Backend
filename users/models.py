@@ -1,11 +1,19 @@
 from django.db import models
 
 from cores.timestamp import TimeStamp
-from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    pass
+    uid = models.CharField(max_length=255)
+    provider = models.CharField(max_length=50, default='google')
+    picture = models.CharField(max_length=250)
+    username = models.CharField(max_length=250)
+    email = models.CharField(max_length=250, unique=True)
+    refresh = models.TextField(null=True)
+
+    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'email'
+
     class Meta:
         db_table = 'user'
 
