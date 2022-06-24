@@ -1,32 +1,92 @@
-import google.oauth2.credentials
-import google_auth_oauthlib.flow
-from google.oauth2 import id_token
-from google.auth.transport import requests
+from django.shortcuts import redirect
+import requests
+from rest_framework import status
+from json.decoder import JSONDecodeError
 
-flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-    {"./my_settings.py"},
-    scopes = [
-        'openid',
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile'
-    ],
-    state = '12345678910',
-)
+from django.conf import settings
+from django.http import JsonResponse
 
-flow.redirect_uri = 'http://localhost:8000/'
+from users.models import User
+from allauth.socialaccount.models import SocialAccount
 
-authorization_url, state = flow.authorization_url(
-    access_type='offline',
-    include_granted_scopes='true')
-    
-    
-def verify_id_token(credentials):
-    idinfo = id_token.verify_oauth2_token(credentials.id_token, 
-        requests.Request(),
-        secret_keys.google_client_id
-    )
-    return idinfo
 
-def verify_id_token_form_uri(uri):
-    flow.fetch_token(authorization_response=uri)
-    return verify_id_token(flow.credentials)
+from allauth.socialaccount.providers.google import views as google_view
+
+
+fstate = getattr(settings, 'STATE')
+
+BASE_URL = 'http://localhost:8000/'
+GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
+
+def google_login(request):
+    scope = "https://www.googleapis.com/auth/userinfo.email"
+    client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+    print(11231231231231231)
+    return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={GOOGLE_CALLBACK_URI}&scope={scope}")
+
+def google_callback(request):
+    client_id = getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+    client_secret = getattr(settings, "SOCIAL_AUTH_GOOGLE_SECRET")
+    code = request.GET.get('code')
+    """
+    Access Token Request
+    """
+    token_req = requests.post(
+        f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}"
+        )
+    token_req_json = token_req.json()
+    error = token_req_json.get("error")
+
+    if error is not None:
+        raise JSONDecodeError(error)
+
+    access_token = token_req_json.get('access_token')
+    email_req = requests.get(
+        f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
+
+    email_req_status = email_req.status_code
+    if email_req_status != 200:
+        return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
+
+    email_req_json = email_req.json()
+    email = email_req_json.get('email')
+    """
+    Signup or Signin Request
+    """
+    try:
+        user = User.objects.get(email=email)
+        
+        social_user = SocialAccount.objects.get(user=user)
+        
+
+        if social_user is None:
+            return JsonResponse({'err_msg': 'email exists but not social user'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if social_user.provider != 'google':
+            return JsonResponse({'err_msg': 'no matching social type'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 기존에 Google로 가입된 유저
+        data = {'access_token': access_token, 'code': code}
+
+        accept = requests.post(
+            f"{BASE_URL}accounts/google/login/finish/", data=data)
+        accept_status = accept.status_code
+
+        if accept_status != 200:
+            return JsonResponse({'err_msg': 'failed to signin'}, status=accept_status)
+
+        accept_json = accept.json()
+        accept_json.pop('user', None)
+        return JsonResponse(accept_json)
+
+    except User.DoesNotExist:
+        # 기존에 가입된 유저가 없으면 새로 가입
+        data = {'access_token': access_token, 'code': code}
+        accept = requests.post(
+            f"{BASE_URL}accounts/google/login/finish/", data=data)
+        accept_status = accept.status_code
+        if accept_status != 200:
+            return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
+        accept_json = accept.json()
+        accept_json.pop('user', None)
+        return JsonResponse(accept_json)
