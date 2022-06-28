@@ -18,7 +18,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
     def get_attempt(self, object):
         user    = self.context['request'].user
-        attempt = UserRank.objects.filter(user=user)
+        attempt = UserRank.objects.filter(user=user.id)
         return attempt
 
     class Meta:
@@ -42,7 +42,7 @@ class QuizSerializer(serializers.ModelSerializer):
         data  = [{
                     'question': question.content,
                     'image'   : question.image,
-                    'asnwer'  : [{
+                    'answer'  : [{
                                     "answer"        : answer.correct,
                                     "answer_content": answer.content
                                 } for answer in random.sample(list(Answer.objects.filter(question=question)), 5)]
