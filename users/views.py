@@ -26,9 +26,14 @@ class UserCreate(generics.GenericAPIView):
             token = RefreshToken.for_user(user)
             user.refresh = token
             user.save()
-            response = Response(status = 200)
-            response.set_cookie("access_token", token.access_token, httponly=True)
-            response.set_cookie("refresh_token", user.refresh, httponly=True)
+            response = Response({
+                "jwt_token": {
+                    "access_token": str(token.access_token),
+                    "refresh_token": str(token),
+                },
+            },
+                status = 200
+                )
             return response
 
         user = User.objects.create(
@@ -41,9 +46,14 @@ class UserCreate(generics.GenericAPIView):
         user.refresh = token
         UserRank.objects.create(user_id=user.id)
         user.save()
-        response = Response(status = 201)
-        response.set_cookie("access_token", token.access_token, httponly=True)
-        response.set_cookie("refresh_token", user.refresh, httponly=True)
+        response = Response({
+            "jwt_token": {
+                        "access_token": str(token.access_token),
+                        "refresh_token": str(token),
+                    },
+                },
+            status = 201
+        )
         return response
 
 
