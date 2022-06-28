@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #application
     'users',
     'questions',
+    'contact',
     'cores',
     #swagger
     'drf_yasg',
@@ -177,3 +178,11 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
 }
+
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
+EMAIL_HOST_USER = 'AKIAROAGL73DX2564IFS'
+EMAIL_HOST_PASSWORD = 'BC5O+AQSIsw9hRahbm7prPJypMMp0Q8KXq4DG8jxXdCk'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
