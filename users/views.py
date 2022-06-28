@@ -18,22 +18,16 @@ class UserCreate(generics.GenericAPIView):
         response = requests.get(url+token)
         user_info     = response.json()
         
+        
         #토큰 갱신확인(access : exp 종료시 재발급 및 refresh 까지 만료시 refresh재발급 및 엑세스토큰 발급 )
         if User.objects.filter(uid = user_info['sub']).exists():
             user = User.objects.get(uid = user_info['sub'])
             token = RefreshToken.for_user(user)
             user.refresh = token
             user.save()
-            response = Response({
-                "jwt_token": {
-                    "access_token": token['access_token'],
-                    "refresh_token": token['refresh_token'],
-                },
-            },
-                status = 200
-                )
-            response.set_cookie("access_token", token['access_token'], httponly=True)
-            response.set_cookie("refresh_token", token['refresh_token'], httponly=True)
+            response = Response(status = 200)
+            response.set_cookie("access_token", token.access_token, httponly=True)
+            response.set_cookie("refresh_token", user.refresh, httponly=True)
             return response
 
         user = User.objects.create(
@@ -46,16 +40,9 @@ class UserCreate(generics.GenericAPIView):
         user.refresh = token
         UserRank.objects.create(user_id=user.id)
         user.save()
-        response = Response({
-            "jwt_token": {
-                        "access_token": token['access_token'],
-                        "refresh_token": token['refresh_token'],
-                    },
-                },
-            status = 201
-        )
-        response.set_cookie("access_token", token['access_token'], httponly=True)
-        response.set_cookie("refresh_token", token['refresh_token'], httponly=True)
+        response = Response(status = 201)
+        response.set_cookie("access_token", token.access_token, httponly=True)
+        response.set_cookie("refresh_token", user.refresh, httponly=True)
         return response
 
 class UserProfile(generics.ListAPIView):
