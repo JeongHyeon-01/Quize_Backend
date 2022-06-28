@@ -12,7 +12,7 @@ from rest_framework import status
 def login_authorization(func):
     def wapper(self, request,*args, **kwargs):
         try:
-            access_token = request.headers['access_token']
+            access_token = request.headers.get('access_token')
             payload = jwt.decode(
                 access_token,
                 settings.SECRET_KEY,
