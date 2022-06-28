@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     #application
     'users',
     'questions',
-    'contact',
     'cores',
     #swagger
     'drf_yasg',
