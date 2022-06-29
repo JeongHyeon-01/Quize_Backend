@@ -28,8 +28,8 @@ class UserCreate(generics.GenericAPIView):
             user.save()
             response = Response({
                 "jwt_token": {
-                    "access_token": str(token.access_token),
-                    "refresh_token": str(token),
+                    "access": str(token.access_token),
+                    "refresh": str(token),
                 },
             },
                 status = 200
@@ -48,8 +48,8 @@ class UserCreate(generics.GenericAPIView):
         user.save()
         response = Response({
             "jwt_token": {
-                        "access_token": str(token.access_token),
-                        "refresh_token": str(token),
+                        "access": str(token.access_token),
+                        "refresh": str(token),
                     },
                 },
             status = 201

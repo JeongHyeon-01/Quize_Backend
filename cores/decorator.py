@@ -12,7 +12,7 @@ from rest_framework import status
 def login_authorization(func):
     def wapper(self, request,*args, **kwargs):
         try:
-            access_token = request.headers.get('access_token')
+            access_token = request.headers.get('access')
             payload = jwt.decode(
                 access_token,
                 settings.SECRET_KEY,
@@ -30,14 +30,14 @@ def login_authorization(func):
         #토큰 만료시 갱신
         except jwt.ExpiredSignatureError:
             try:
-                serializer = TokenRefreshSerializer(data={'refresh': request.headers.get('refresh_token', None)})
+                serializer = TokenRefreshSerializer(data={'refresh': request.headers.get('refresh', None)})
                 if serializer.is_valid(raise_exception=True):
                     access_token = serializer.validated_data['access']
-                    refresh_token = request.headers.get('refresh_token', None)
+                    refresh_token = request.headers.get('refresh', None)
                     response = Response({
                 "jwt_token": {
-                    "access_token": str(refresh_token.access_token),
-                    "refresh_token": str(refresh_token),
+                    "access": str(refresh_token.access_token),
+                    "refresh": str(refresh_token),
                 },
             },
                 status = 200
