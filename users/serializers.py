@@ -75,8 +75,8 @@ class UserRankSerializer(serializers.ModelSerializer):
         quiz_passed    = validated_data.get('quiz_passed')
         attempt        = validated_data.get('attempt')
 
-        rank, is_create = UserRank.objects.get_or_create(
-                                        user     = user,
+        rank, is_created = UserRank.objects.get_or_create(
+                                        user_id     = user,
                                         defaults = {
                                             'correct_answer': correct_answer,
                                             'total_time'    : total_time,
@@ -85,7 +85,7 @@ class UserRankSerializer(serializers.ModelSerializer):
                                         }
                                     )
         
-        if not is_create:
+        if not is_created:
             rank.correct_answer += correct_answer
             rank.total_time     += total_time
             rank.quiz_passed    += quiz_passed
