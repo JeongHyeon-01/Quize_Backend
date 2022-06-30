@@ -42,7 +42,7 @@ class UserRankView(generics.ListCreateAPIView):
 
         if serializer.is_valid():
             serializer.save(user=request.user.id)
-            return Response(serializer.data)
+            return Response(serializer.data, status=201)
         return Response(serializer.errors)
 
     @login_authorization

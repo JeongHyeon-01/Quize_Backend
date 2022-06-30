@@ -26,13 +26,6 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AnswerSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Answer
-        fields = '__all__'
-
-
 class QuizSerializer(serializers.ModelSerializer):
     content = serializers.SerializerMethodField()
 
