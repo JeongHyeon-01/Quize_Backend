@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from questions.models      import Category, DevelopmentGroup, Question, Answer
+from questions.models      import Category, DevelopmentGroup
 from questions.serializers import CategoryListSerializer, CategoryDetailSerializer, QuizSerializer
 
 
