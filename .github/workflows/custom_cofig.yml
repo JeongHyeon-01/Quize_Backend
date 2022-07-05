@@ -14,23 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Git clone on our repo
-        uses: actions/checkout@v2
-
-      - name: Create zip deployment package
-        run: zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.aws_access_key_id }}
-          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
-          aws-region: ${{ env.AWS_REGION_NAME }}
-      - name: Copying file to S3
-        run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.EB_S3_BUCKET_NAME }}/
-      - name: Print nice message on success finish
-        run: echo "CI part finished successfuly"
-
       - name: Checkout
         uses: actions/checkout@v2
       - name: Docker meta
