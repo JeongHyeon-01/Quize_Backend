@@ -1,6 +1,6 @@
 name: CI-CD pipeline to AWS
 env:
-  EB_S3_BUCKET_NAME: "elasticbeanstalk-ap-northeast-2-098797616839"
+  EB_S3_BUCKET_NAME: "quiztecd"
   EB_APPLICATION_NAME: "quiztec"
   EB_ENVIRONMENT_NAME: "quiztec-env" # 보통 앱 이름에 -env 형태로 자동 생성
   DEPLOY_PACKAGE_NAME: "django-app-${{ github.sha }}.zip"
