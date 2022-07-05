@@ -1,0 +1,20 @@
+version: "3" # 버전 지정
+services: # 컨테이너 설정
+  web: # 컨테이너1 : web
+    container_name: web
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod # 배포용인 Dockerfile.prod
+    command: gunicorn django_rest_framework_15th.wsgi:application --bind 0.0.0.0:8000 # 배포에서는 gunicorn으로 웹서버(nginx) -> 장고 연결
+    environment:
+      DJANGO_SETTINGS_MODULE: django_rest_framework_15th.settings.prod
+    env_file:
+      - .env
+    volumes:
+      - static:/home/app/web/static
+      - media:/home/app/web/media
+    expose:
+      - 8000
+    entrypoint:
+      - sh
+      - config/docker/entrypoint.prod.sh
