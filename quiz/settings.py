@@ -188,3 +188,10 @@ EMAIL_HOST_USER = 'AKIAROAGL73DX2564IFS'
 EMAIL_HOST_PASSWORD = 'BC5O+AQSIsw9hRahbm7prPJypMMp0Q8KXq4DG8jxXdCk'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Elasticache
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'redisquiztec.xrb6on.clustercfg.apn2.cache.amazonaws.com:6379',
+        }}
