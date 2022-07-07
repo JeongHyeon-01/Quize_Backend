@@ -11,15 +11,15 @@ schema_url_patterns = [
 
 schema_view = get_schema_view(
     openapi.Info(
-        title           = "Quiz_Tec API",
-        default_version = "v1",
-        description     = "Quiz_Tec API document",
-        terms_of_service="https://www.google.com/policies/terms/", 
-        contact=openapi.Contact(email="auddwd19@naver.com"),
-        license=openapi.License(name="BSD License"),
+        title            = "Quiz_Tec API",
+        default_version  = "v1",
+        description      = "Quiz_Tec API document",
+        terms_of_service = "https://www.google.com/policies/terms/",
+        contact          = openapi.Contact(email="auddwd19@naver.com"),
+        license          = openapi.License(name="BSD License"),
     ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
+    public = True,
+    permission_classes = (permissions.AllowAny,),
 )
 
 urlpatterns = [

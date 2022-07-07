@@ -1,7 +1,9 @@
+from django.test import Client
+
 from rest_framework.test             import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.test import Client
-from users.models import User
+
+from users.models    import User
 from supports.models import Support
 
 
@@ -24,23 +26,22 @@ class SupportNomallyUser(APITestCase):
 
 
     def test_posting_user_retrive(self):
-        token = RefreshToken.for_user(User.objects.get(id =1))
-        header = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
+        token    = RefreshToken.for_user(User.objects.get(id =1))
+        header   = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
         response = client.get('/supports/help/1/', **header, content_type='application/json')
         self.assertEqual(response.status_code, 200)
     
 
     def test_posting_user_put(self):
-        token = RefreshToken.for_user(User.objects.get(id =1))
-        header = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
-        data ={"title":"123","description":"123"}
+        token    = RefreshToken.for_user(User.objects.get(id =1))
+        header   = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
+        data     = {"title":"123","description":"123"}
         response = client.put('/supports/help/1/', data=data,**header, content_type='application/json')
         
         self.assertEqual(response.status_code, 200)
 
     def test_posting_user_put(self):
-        token = RefreshToken.for_user(User.objects.get(id =1))
-        header = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
+        token    = RefreshToken.for_user(User.objects.get(id =1))
+        header   = {"HTTP_access": str(token.access_token),'HTTP_refresh' : str(token)}
         response = client.delete('/supports/help/1/',**header, content_type='application/json')
-        
         self.assertEqual(response.status_code, 204)

@@ -17,7 +17,13 @@ class TestUserRank(APITestCase):
                             email    = 'test@aaa.com'
                         )
      
-        self.user_rank = UserRank.objects.create(user_id=1, correct_answer=9, total_time=9, quiz_passed=1, attempt=1)
+        self.user_rank = UserRank.objects.create(
+                                    user_id        = 1,
+                                    correct_answer = 9,
+                                    total_time     = 9,
+                                    quiz_passed    = 1,
+                                    attempt        = 1
+                                )
 
     def test_user_rank_create(self):
         refresh = RefreshToken.for_user(self.user)
