@@ -1,6 +1,7 @@
 from django.db import models
+
 from cores.timestamp import TimeStamp
-from users.models import User
+from users.models    import User
 
 
 class Support(TimeStamp):

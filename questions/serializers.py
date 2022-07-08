@@ -40,5 +40,5 @@ class QuizSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("try again")
 
     class Meta:
-        model = Category
+        model  = Category
         fields = ['id', 'content']
