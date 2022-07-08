@@ -1,7 +1,7 @@
 from pathlib import Path
-from my_settings import SECRET_KEY, DATABASES
 from datetime import timedelta
 
+from my_settings import SECRET_KEY, DATABASES
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -170,17 +170,10 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
 }
 
-# email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
-EMAIL_HOST_USER = 'AKIAROAGL73DX2564IFS'
-EMAIL_HOST_PASSWORD = 'BC5O+AQSIsw9hRahbm7prPJypMMp0Q8KXq4DG8jxXdCk'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-# Elasticache
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'redisquiztec.xrb6on.clustercfg.apn2.cache.amazonaws.com:6379',
-        }}
+# email : 추후 추가 구현 사항
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
+# EMAIL_HOST_USER = 'AKIAROAGL73DX2564IFS'
+# EMAIL_HOST_PASSWORD = 'BC5O+AQSIsw9hRahbm7prPJypMMp0Q8KXq4DG8jxXdCk'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
