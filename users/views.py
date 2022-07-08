@@ -3,10 +3,12 @@ import requests
 from rest_framework          import generics, status
 from rest_framework.response import Response
 
+from cores.user_check  import checked_user
 from cores.decorator   import login_authorization
+
 from users.models      import User, UserRank
 from users.serializers import UserProfileSerializer, UserCreateSerializer, UserRankSerializer
-from users.user_check  import checked_user
+
 
 
 class UserCreate(generics.GenericAPIView):
