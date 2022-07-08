@@ -21,15 +21,19 @@
 ## 사용 기술
 - Python, Django Rest Framework
   - 빠른 Rest API 구현을 위한 도구로써 DRF를 사용하였고, generics를 활용하여 CRUD를 
+  
 - JWT
   - 유저의 인가 권한을 인식하기위해 토큰방식을 채택 하였고 도구로는 JWT를 택하였고,
     기존에 JWT를 사용하여 인증인가 방식을 구현해 보았기 때문에 조금더 친숙하고 구현하기 쉬운 Json Web token을 채택하였고  짧은 유지 시간을 보완하기 위해 Refresh toekn 을 발급하였다.
     알고리즘은 HS256을 채택하였다.
+    
 - AWS EC2, RDS, Router 53
   - AWS 부분의 EC2, RDS의 경우 배포를 위하여 사용하였고
   - Router 53의 경우 DNS를 위한 탄력적 IP구성 및 DNS 서비스를 위해 사용을 하였다.
+  
 - Docker
   - image build를 위해 사용 
+  
 - Locust
   - 부하테스트를 위하여 사용하였으며 현재 상황의 경우 유저 100 명 이하로 받아야한다.
   (추가로 redis 서버를 다는것을 생각중에 있다.  추후 업데이트 예정)
