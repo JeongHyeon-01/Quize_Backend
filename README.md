@@ -3,7 +3,7 @@
 <br>
 - 시연 영상: 
 - 프론트엔드 깃헙 주소: 
-- API Documentation: 
+- API Documentation: https://documenter.getpostman.com/view/20078012/UzJMrFgZ
 
 ## 버전
 - 0.1.0
