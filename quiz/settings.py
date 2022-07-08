@@ -1,11 +1,12 @@
 from pathlib import Path
 from datetime import timedelta
 
-from my_settings import SECRET_KEY, DATABASES
+from my_settings import SECRET_KEY, DATABASES, GOOGLE_OAUTH2_CLIENT_ID, GOOGLE_OAUTH2_CLIENT_SECRET,GOOGLE_OAUTH2_REDIRECT_URI
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+GOOGLE_OAUTH2_CLIENT_ID = GOOGLE_OAUTH2_CLIENT_ID
+GOOGLE_OAUTH2_CLIENT_SECRET = GOOGLE_OAUTH2_CLIENT_SECRET
+GOOGLE_OAUTH2_REDIRECT_URI = GOOGLE_OAUTH2_REDIRECT_URI
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -13,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['13.209.49.51:8000','172.31.46.255:8000','*']
 
@@ -42,9 +43,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -119,10 +120,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ORIGIN_ALLOW_ALL=True # <- 모든 호스트 허용
+CORS_ALLOW_CREDENTIALS = True # <-쿠키가 cross-site HTTP 요청에 포함될 수 있다
 
-#CORS
-CORS_ORIGIN_ALLOW_ALL=True
-CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -131,6 +131,7 @@ CORS_ALLOW_METHODS = (
     'POST',
     'PUT',
 )
+
 CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
@@ -143,12 +144,12 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
+APPEND_SLASH = False
+
 # CORS 관련 추가
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000'
                          ,'http://localhost:3000']
 
-
-APPEND_SLASH = False
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {	
