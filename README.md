@@ -1,5 +1,8 @@
 # Quiz-Tech
-기술 면접 대비 퀴즈 사이트로 Backend, Frontend의 다양한 면접 질문을 연습해 볼 수 있다.
+기술 면접 대비 퀴즈 사이트로 Backend, Frontend의 다양한 면접 질문을 문제은행 식으로 테스트해 볼 수 있다.
+Backend 카테고리 : Python, Django, NetWork, DataBase, OS(준비중)
+Frontend 카테고리 : React, JavaScript
+(CS 관련 카테고리 ex) Network, OS 신설예정)
 <br>
 - 시연 영상: 
 - 프론트엔드 깃헙 주소: 
