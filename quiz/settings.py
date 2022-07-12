@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'quiz.custom_cors_middleware.CustomCorsMiddleware',
 ]
 
 ROOT_URLCONF = 'quiz.urls'
@@ -178,3 +179,11 @@ SIMPLE_JWT = {
 # EMAIL_HOST_PASSWORD = 'BC5O+AQSIsw9hRahbm7prPJypMMp0Q8KXq4DG8jxXdCk'
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
+
+'''
+Default: 'same-origin'
+
+None 으로 설정하지 않는 한 , SecurityMiddleware 는 제공된 값에 대해 아직 가지고 있지 않은 모든 응답에 대해 Cross-Origin Opener Policy 헤더를 설정합니다.
+'''
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
