@@ -60,7 +60,7 @@ def kakao_checked_user(kakao_user):
             'last_login' : datetime.today()
             }
     )
-
+    status = 200 if not state else 201
     if not state:
         user.profile_image = kakao_user['kakao_account']['profile'].get('profile_image_url', None)
         user.last_login =  datetime.today()
@@ -77,6 +77,6 @@ def kakao_checked_user(kakao_user):
             "access" : str(token.access_token),
             "refresh": str(token),
             },
+        "status" : status
         },
-
     return response
