@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User,UserRank
 
 
-def checked_user(data):
+def google_checked_user(data):
     if User.objects.filter(uid = data['sub']).exists():
         user            = User.objects.get(uid = data['sub'])
         token           = RefreshToken.for_user(user)
@@ -44,6 +44,39 @@ def checked_user(data):
                                 "access" : str(token.access_token),
                                 "refresh": str(token),
                             },
-                },
-                
+                }    
+    return response
+
+
+def kakao_checked_user(kakao_user):
+
+    user, state = User.objects.get_or_create(
+        uid        = kakao_user['id'],
+        username   = kakao_user['properties']['nickname'],
+        email      = kakao_user['email'],
+        last_login = datetime.today(),
+        defaults={
+            'picture': kakao_user['kakao_account']['profile'].get('profile_image_url', None),
+            'last_login' : datetime.today()
+            }
+    )
+
+    if not state:
+        user.profile_image = kakao_user['kakao_account']['profile'].get('profile_image_url', None)
+        user.last_login =  datetime.today()
+        user.save()
+
+    token        = RefreshToken.for_user(user)
+    user.refresh = token
+
+    UserRank.objects.create(user_id=user.id)
+    user.save()
+
+    response = {
+        "jwt_token": {
+            "access" : str(token.access_token),
+            "refresh": str(token),
+            },
+        },
+
     return response
