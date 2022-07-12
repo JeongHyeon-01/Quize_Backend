@@ -26,6 +26,7 @@ class KakaoLogin(generics.GenericAPIView):
             if kakao_user.get('code') == -401: 
                 return Response({'message' : 'Invalid token'}, status=401)
 
+            
             return Response(kakao_checked_user(kakao_user))
             
         except KeyError: 
