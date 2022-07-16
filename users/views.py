@@ -15,6 +15,9 @@ from users.kakao       import KakaoAPI
 from users.models      import User, UserRank
 from users.serializers import UserProfileSerializer, UserCreateSerializer, UserRankSerializer
 
+#초안
+
+
 
 #만약을 대비한 카카오 로그인
 class KakaoLogin(generics.GenericAPIView):
